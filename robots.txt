@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /tools.html
+Disallow: /shorui.html
+Disallow: /hoshu-tsuki.html
+Disallow: /hoshu-nen.html
+
+Sitemap: https://tomo-web-sapporo.github.io/sitemap.xml
