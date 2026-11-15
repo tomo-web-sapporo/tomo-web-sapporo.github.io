@@ -75,6 +75,7 @@ section.alt{background:var(--paper)}
 
 /* news */
 section.news{padding:0 0 56px}
+.news-box span a{color:var(--head);text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:3px;word-break:break-all}
 .news-box{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 24px;display:grid;gap:4px}
 @media(min-width:760px){.news-box{grid-template-columns:160px 1fr;column-gap:28px;align-items:start}.news-more{grid-column:2}}
 .news-h{margin:0;font-family:"Noto Serif JP",serif;font-weight:700;font-size:20px;color:var(--head);display:flex;align-items:center;gap:10px}
@@ -415,7 +416,7 @@ footer a{color:#C9D3E0}
 <script>
 (async()=>{const sec=document.getElementById("news"),list=document.getElementById("news-list"),more=document.getElementById("news-more");
 try{const r=await fetch("news.txt",{cache:"no-cache"});if(!r.ok)return;const items=(await r.text()).split(/\r?\n/).map(l=>l.trim()).filter(l=>l&&!l.startsWith("#")).map(l=>{const m=l.match(/^(\d{4})[\/.\-](\d{1,2})[\/.\-](\d{1,2})\s+(.+)$/);return m?{d:`${m[1]}.${m[2].padStart(2,"0")}.${m[3].padStart(2,"0")}`,iso:`${m[1]}-${m[2].padStart(2,"0")}-${m[3].padStart(2,"0")}`,t:m[4]}:null}).filter(Boolean).sort((a,b)=>b.iso.localeCompare(a.iso));
-if(!items.length)return;const draw=n=>{list.innerHTML="";items.slice(0,n).forEach(it=>{const li=document.createElement("li");const tm=document.createElement("time");tm.dateTime=it.iso;tm.textContent=it.d;const sp=document.createElement("span");sp.textContent=it.t;li.append(tm,sp);list.appendChild(li)})};
+if(!items.length)return;const draw=n=>{list.innerHTML="";items.slice(0,n).forEach(it=>{const li=document.createElement("li");const tm=document.createElement("time");tm.dateTime=it.iso;tm.textContent=it.d;const sp=document.createElement("span");it.t.split(/(https?:\/\/[^\s　）)」]+)/).forEach((part,i)=>{if(i%2){const a=document.createElement("a");a.href=part;a.textContent=part.replace(/^https?:\/\//,"").replace(/\/$/,"");a.target="_blank";a.rel="noopener";sp.appendChild(a)}else if(part){sp.appendChild(document.createTextNode(part))}});li.append(tm,sp);list.appendChild(li)})};
 draw(3);sec.hidden=false;if(items.length>3){more.hidden=false;more.onclick=()=>{draw(items.length);more.hidden=true}}}catch(e){}})();
 requestAnimationFrame(()=>requestAnimationFrame(()=>document.documentElement.classList.add("ready")));
 (()=>{const bar=document.getElementById("callbar"),hero=document.querySelector(".hero"),contact=document.getElementById("contact");if(!("IntersectionObserver" in window)){bar.classList.add("on");return}
